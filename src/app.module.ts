@@ -5,7 +5,15 @@ import { GoogleAuthModule } from "./google-auth/google-auth.module";
 import { ConfigModule } from "@nestjs/config";
 
 @Module({
-  imports: [GoogleAuthModule, ConfigModule.forRoot()],
+  imports: [
+    GoogleAuthModule,
+    ConfigModule.forRoot({
+      isGlobal: true,
+      envFilePath: !process.env.NODE_ENV
+        ? ".env"
+        : `.env.${process.env.NODE_ENV}`,
+    }),
+  ],
   controllers: [AppController],
   providers: [AppService],
 })
